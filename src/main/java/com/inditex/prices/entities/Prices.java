@@ -4,10 +4,12 @@ import com.inditex.prices.entities.enums.Currency;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "Prices")
+@Entity
+@Table(name = "Prices")
 public class Prices {
 
     @Id
