@@ -1,0 +1,9 @@
+{
+  "message": "Argument type mismatch",
+  "errors": [
+    {
+      "key": "applicationDate",
+      "value": "Type mismatch"
+    }
+  ]
+}

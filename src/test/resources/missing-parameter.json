@@ -1,0 +1,9 @@
+{
+  "message": "Missing query parameter",
+  "errors": [
+    {
+      "key": "productId",
+      "value": "Must be present"
+    }
+  ]
+}

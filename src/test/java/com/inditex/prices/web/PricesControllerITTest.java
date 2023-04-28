@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,10 +37,9 @@ class PricesControllerITTest {
     @Test
     void getPrices_assignmentTest1() {
 
-        mockMvc.perform(get("/prices")
-                .param("applicationDate", "2020-06-14T10:00:00")
-                .param("productId", "35455")
-                .param("brand", "ZARA"))
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2020-06-14T10:00:00")
+                        .param("productId", "35455"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-1.json")));
     }
@@ -49,10 +49,9 @@ class PricesControllerITTest {
     @Test
     void getPrices_assignmentTest2() {
 
-        mockMvc.perform(get("/prices")
-                .param("applicationDate", "2020-06-14T16:00:00")
-                .param("productId", "35455")
-                .param("brand", "ZARA"))
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2020-06-14T16:00:00")
+                        .param("productId", "35455"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-2.json")));
     }
@@ -62,10 +61,9 @@ class PricesControllerITTest {
     @Test
     void getPrices_assignmentTest3() {
 
-        mockMvc.perform(get("/prices")
-                .param("applicationDate", "2020-06-14T21:00:00")
-                .param("productId", "35455")
-                .param("brand", "ZARA"))
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2020-06-14T21:00:00")
+                        .param("productId", "35455"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-3.json")));
     }
@@ -75,10 +73,9 @@ class PricesControllerITTest {
     @Test
     void getPrices_assignmentTest4() {
 
-        mockMvc.perform(get("/prices")
-                .param("applicationDate", "2020-06-15T10:00:00")
-                .param("productId", "35455")
-                .param("brand", "ZARA"))
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2020-06-15T10:00:00")
+                        .param("productId", "35455"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-4.json")));
     }
@@ -88,12 +85,59 @@ class PricesControllerITTest {
     @Test
     void getPrices_assignmentTest5() {
 
-        mockMvc.perform(get("/prices")
-                .param("applicationDate", "2020-06-16T21:00:00")
-                .param("productId", "35455")
-                .param("brand", "ZARA"))
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2020-06-16T21:00:00")
+                        .param("productId", "35455"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-5.json")));
     }
 
+    @DisplayName("Price list not found.")
+    @SneakyThrows
+    @Test
+    void getPrices_NoPriceListFound() {
+
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2019-06-16T21:00:00")
+                        .param("productId", "35455"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(TestUtils.extractJson("price-list-not-found.json")));
+    }
+
+    @DisplayName("Date format not correct.")
+    @SneakyThrows
+    @Test
+    void getPrices_DateFormatNotCorrect() {
+
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2019-06-16T21:00:0")
+                        .param("productId", "35455"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(TestUtils.extractJson("type-mismatch.json")));
+    }
+
+    @DisplayName("Missing parameter.")
+    @SneakyThrows
+    @Test
+    void getPrices_MissingParameter() {
+
+        mockMvc.perform(get("/prices/{brand}", "ZARA")
+                        .param("applicationDate", "2020-06-16T21:00:00"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(TestUtils.extractJson("missing-parameter.json")));
+    }
+
+    @DisplayName("Constraint violation.")
+    @SneakyThrows
+    @Test
+    void getPrices_ConstraintViolation() {
+
+        mockMvc.perform(get("/prices/{brand}", " ")
+                        .param("applicationDate", "2020-06-16T21:00:00")
+                        .param("productId", "35455"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(TestUtils.extractJson("constraint-violation.json")));
+    }
 }

@@ -1,0 +1,9 @@
+{
+  "message": "Missing query parameter",
+  "errors": [
+    {
+      "key": "getPrices.brand",
+      "value": "must not be blank"
+    }
+  ]
+}

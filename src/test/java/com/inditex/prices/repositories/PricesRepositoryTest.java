@@ -12,6 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static com.inditex.prices.entities.enums.Currency.EUR;
 import static org.assertj.core.api.Assertions.*;
@@ -67,9 +68,11 @@ class PricesRepositoryTest {
     void test_AssignmentTest1() {
 
         // Test
-        Prices price = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-14T10:00:00"), 35455L, "ZARA");
+        Optional<Prices> optionalPrice = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-14T10:00:00"), 35455L, "ZARA");
 
         // Verify
+        assertThat(optionalPrice.isPresent()).isEqualTo(true);
+        Prices price = optionalPrice.get();
         assertThat(price).isNotNull();
         assertThat(price.getPriceList()).isEqualTo(1);
     }
@@ -79,9 +82,11 @@ class PricesRepositoryTest {
     void test_AssignmentTest2() {
 
         // Test
-        Prices price = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-14T16:00:00"), 35455L, "ZARA");
+        Optional<Prices> optionalPrice = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-14T16:00:00"), 35455L, "ZARA");
 
         // Verify
+        assertThat(optionalPrice.isPresent()).isEqualTo(true);
+        Prices price = optionalPrice.get();
         assertThat(price).isNotNull();
         assertThat(price.getPriceList()).isEqualTo(2);
     }
@@ -91,9 +96,11 @@ class PricesRepositoryTest {
     void test_AssignmentTest3() {
 
         // Test
-        Prices price = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-14T21:00:00"), 35455L, "ZARA");
+        Optional<Prices> optionalPrice = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-14T21:00:00"), 35455L, "ZARA");
 
         // Verify
+        assertThat(optionalPrice.isPresent()).isEqualTo(true);
+        Prices price = optionalPrice.get();
         assertThat(price).isNotNull();
         assertThat(price.getPriceList()).isEqualTo(1);
     }
@@ -103,9 +110,11 @@ class PricesRepositoryTest {
     void test_AssignmentTest4() {
 
         // Test
-        Prices price = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-15T10:00:00"), 35455L, "ZARA");
+        Optional<Prices> optionalPrice = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-15T10:00:00"), 35455L, "ZARA");
 
         // Verify
+        assertThat(optionalPrice.isPresent()).isEqualTo(true);
+        Prices price = optionalPrice.get();
         assertThat(price).isNotNull();
         assertThat(price.getPriceList()).isEqualTo(3);
     }
@@ -115,10 +124,23 @@ class PricesRepositoryTest {
     void test_AssignmentTest5() {
 
         // Test
-        Prices price = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-16T21:00:00"), 35455L, "ZARA");
+        Optional<Prices> optionalPrice = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2020-06-16T21:00:00"), 35455L, "ZARA");
 
         // Verify
+        assertThat(optionalPrice.isPresent()).isEqualTo(true);
+        Prices price = optionalPrice.get();
         assertThat(price).isNotNull();
         assertThat(price.getPriceList()).isEqualTo(4);
+    }
+
+    @DisplayName("No price list found.")
+    @Test
+    void test_NoPriceListFound() {
+
+        // Test
+        Optional<Prices> optionalPrice = pricesRepository.findHighestPriorityByDateProductAndBrand(LocalDateTime.parse("2019-06-16T21:00:00"), 35455L, "ZARA");
+
+        // Verify
+        assertThat(optionalPrice.isPresent()).isEqualTo(false);
     }
 }
