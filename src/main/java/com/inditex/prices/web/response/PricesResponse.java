@@ -1,10 +1,14 @@
 package com.inditex.prices.web.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 @Data
-@AllArgsConstructor
+@Builder
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 public class PricesResponse {
 
     private Long productId;

@@ -1,5 +1,6 @@
 package com.inditex.prices.web;
 
+import com.inditex.prices.services.PricesService;
 import com.inditex.prices.web.response.PricesResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 @RequestMapping("/prices")
 @RequiredArgsConstructor
 public class PricesController {
+
+    private final PricesService pricesService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -30,6 +33,6 @@ public class PricesController {
             @RequestParam("brand")
             String brand
     ) {
-        return null;
+        return pricesService.findHighestPriorityByDateProductAndBrand(applicationDate, productId, brand);
     }
 }
