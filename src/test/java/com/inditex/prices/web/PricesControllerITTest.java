@@ -41,6 +41,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2020-06-14T10:00:00")
                         .param("productId", "35455"))
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-1.json")));
     }
 
@@ -53,6 +54,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2020-06-14T16:00:00")
                         .param("productId", "35455"))
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-2.json")));
     }
 
@@ -65,6 +67,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2020-06-14T21:00:00")
                         .param("productId", "35455"))
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-3.json")));
     }
 
@@ -77,6 +80,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2020-06-15T10:00:00")
                         .param("productId", "35455"))
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-4.json")));
     }
 
@@ -89,6 +93,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2020-06-16T21:00:00")
                         .param("productId", "35455"))
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("assignment-test-5.json")));
     }
 
@@ -101,6 +106,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2019-06-16T21:00:00")
                         .param("productId", "35455"))
                 .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("price-list-not-found.json")));
     }
 
@@ -113,6 +119,7 @@ class PricesControllerITTest {
                         .param("applicationDate", "2019-06-16T21:00:0")
                         .param("productId", "35455"))
                 .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(TestUtils.extractJson("type-mismatch.json")));
     }
 
