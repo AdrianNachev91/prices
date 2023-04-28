@@ -1,23 +1,28 @@
 package com.inditex.prices.entities;
 
 import com.inditex.prices.entities.enums.Currency;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "Prices")
 @Table(name = "Prices")
+@Data
+@Builder
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Prices {
 
     @Id
     @Column(nullable = false, name = "PRICE_LIST")
-    private Integer priceList;
+    private Long priceList;
 
-    @Column(nullable = false, name = "BRAND_ID")
-    private Integer brandId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BRAND_ID")
+    private Brands brand;
 
     @Column(nullable = false, name = "START_DATE")
     private LocalDateTime startDate;
@@ -26,7 +31,7 @@ public class Prices {
     private LocalDateTime endDate;
 
     @Column(nullable = false, name = "PRODUCT_ID")
-    private Integer productId;
+    private Long productId;
 
     @Column(nullable = false, name = "PRIORITY")
     private Integer priority;
@@ -34,6 +39,7 @@ public class Prices {
     @Column(nullable = false, name = "PRICE")
     private Double price;
 
-    @Column(nullable = false, name = "CURR", columnDefinition = "VARCHAR(255) NOT NULL")
+    @Column(nullable = false, name = "CURR")
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 }

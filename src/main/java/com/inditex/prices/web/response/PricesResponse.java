@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class PricesResponse {
 
-    private Integer productId;
+    private Long productId;
     private String brand;
-    private Integer rate;
+    private Long rate;
     private Double finalPrice;
 }
